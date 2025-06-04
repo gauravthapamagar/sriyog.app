@@ -30,9 +30,8 @@ export default function ClientVMGO() {
         {images.map((img, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
-            }`}
+            className={`absolute inset-0 transition-opacity duration-1000 ${index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+              }`}
           >
             <Image
               src={img}
@@ -152,19 +151,18 @@ export default function ClientVMGO() {
         ({ title, textColor, bgColor, image, content, listItems, reverse }, index) => (
           <section
             key={index}
-            className={`max-w-screen-2xl mx-auto px-6 sm:px-12 md:px-16 lg:px-20 flex flex-col md:flex-row ${
-    reverse ? 'md:flex-row-reverse' : ''
-  } mt-10 gap-6`}
+            className={`max-w-screen-2xl mx-auto px-6 sm:px-12 md:px-16 lg:px-20 flex flex-col md:flex-row ${reverse ? 'md:flex-row-reverse' : ''
+              } mt-10 mb-[45px] gap-6`}
           >
             <div className="md:w-1/2 flex justify-center items-center">
-  <Image
-    src={image}
-    alt={`${title} Icon`}
-    width={120}
-    height={120}
-    className="object-contain"
-  />
-</div>
+              <Image
+                src={image}
+                alt={`${title} Icon`}
+                width={120}
+                height={120}
+                className="object-contain"
+              />
+            </div>
             <div className={`${bgColor} ${textColor} md:w-1/2 p-6 sm:p-10 rounded-md shadow-md`}>
               <h2 className="text-xl sm:text-2xl font-semibold mb-4">{title}</h2>
               {content &&

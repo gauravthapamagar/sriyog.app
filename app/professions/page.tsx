@@ -1,6 +1,7 @@
 import Image from "next/image";
 import RedSection from "@/components/RedSection";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Professions | SRIYOG App",
@@ -44,7 +45,7 @@ export default function FeaturesSection() {
                 key={index}
                 className="flex flex-col items-center text-center border rounded-lg p-4 hover:shadow-md hover:bg-gray-100 transition"
               >
-                <a href="#" className="block">
+                <Link href={`/professions/${item.title.toLowerCase().replace(/\s+/g, "-")}`} className="block">
                   <Image
                     src={`/images/services/${item.img}`}
                     alt={`${item.title} Icon`}
@@ -55,7 +56,7 @@ export default function FeaturesSection() {
                   <span className="text-sm sm:text-base font-medium mt-2 block hover:text-[#8b1414]">
                     {item.title}
                   </span>
-                </a>
+                </Link>
               </div>
             ))}
           </div>

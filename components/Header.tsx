@@ -2,9 +2,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const path = usePathname();
+
   const navItems = [
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
@@ -32,12 +35,12 @@ export default function Header() {
           </Link>
 
           <div className="hidden md:flex md:w-auto items-center gap-6" id="navbar-default">
-            <ul className="min-w-0 font-semibold text-[11px] sm:text-xs md:text-[11px] lg:text-sm flex flex-nowrap p-4 md:p-0 mt-4 lg:ml-12 md:flex-row md:space-x-2 lg:space-x-3 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white max-w-full">
+            <ul className="min-w-0 font-semibold text-[11px] sm:text-xs md:text-[11px] lg:text-sm  flex flex-nowrap p-4 md:p-0 mt-4 lg:ml-12 md:flex-row md:space-x-2 lg:space-x-3 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white max-w-full">
               {navItems.map(item => (
           <li key={item.href}>
             <Link
               href={item.href}
-              className="block py-2 px-3 text-gray-500 hover:text-[#8B1414] rounded md:bg-transparent lg:text-[14px] md:p-0 md:text-[13px] max-[1136px]:text-[10px]"
+              className={`block py-2 px-3 text-gray-500 hover:text-[#8B1414] rounded md:bg-transparent lg:text-[14px] md:p-0 md:text-[13px] max-[1136px]:text-[10px] ${path === item.href ? "text-[#8b1414]" : "text-black"}`}
             >
               {item.label}
             </Link>
