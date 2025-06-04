@@ -1,5 +1,10 @@
 import Image from "next/image";
 import RedSection from "@/components/RedSection";
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Media | SRIYOG App",
+  description: "Learn about SRIYOG, its mission, and impact.",
+};
 
 const mediaCoverageData = [
   {
