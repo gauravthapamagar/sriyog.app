@@ -12,9 +12,11 @@ const Footer = () => {
   return (
     <footer className="bg-white border-t border-gray-200 text-gray-700 text-sm">
       <div className="max-w-screen-xl mx-auto px-3 sm:px-6 md:px-8 lg:px-36 pt-12 pb-0">
-        <div className="flex flex-col lg:flex-row justify-between gap-10">
+        <div className="flex flex-col lg:flex-row gap-10">
           {/* Grid Columns */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-10 w-full lg:w-3/4 sm:my-18 text-xs lg:text-sm md:xs">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-10 w-full lg:w-3/4 sm:my-18 text-xs lg:text-sm md:xs pl-10 md:pl-0">
+            {" "}
+            {/**added ml-6 but need to make changes only on mobile responsiveness view */}
             {/* Column 1 */}
             <div>
               <ul className="space-y-2">
@@ -43,7 +45,6 @@ const Footer = () => {
                 </li>
               </ul>
             </div>
-
             {/* Column 2 */}
             <div>
               <ul className="space-y-2">
@@ -64,7 +65,6 @@ const Footer = () => {
                 </li>
               </ul>
             </div>
-
             {/* Column 3 */}
             <div>
               <ul className="space-y-2">
@@ -85,7 +85,6 @@ const Footer = () => {
                 </li>
               </ul>
             </div>
-
             {/* Column 4 */}
             <div>
               <ul className="space-y-2">

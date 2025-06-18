@@ -19,7 +19,7 @@ const page = () => {
       </RedSection>
       <section className="w-full border-b bg-white">
         <div className="max-w-screen-xl mx-auto px-3 sm:px-6 md:px-8 lg:px-36 py-6">
-          <div className="flex flex-col lg:flex-row gap-10">
+          <div className="flex flex-col lg:flex-row gap-10 lg:items-center">
             {/* Left Content */}
             <div className="w-full lg:w-7/12">
               <hr className="border-t-2 border-[#8B1414] w-20 mb-2" />
@@ -90,8 +90,8 @@ const page = () => {
                 {/* Text near bottom with faint transparent background */}
                 <p
                   className="absolute bottom-0 left-0 right-0
-          bg-opacity-30 text-center text-sm
-          py-3 z-10 rounded-b-md backdrop-blur-sm text-black"
+                  bg-opacity-30 text-center text-sm
+                  py-3 z-10 rounded-b-md backdrop-blur-sm text-white"
                 >
                   Mr. Nagesh Koirala (Mayor of Biratnagar Metropolitan)
                   expressing his views at “Karmashil Award” program held at
@@ -192,9 +192,9 @@ const page = () => {
           </div>
         </div>
       </section>
-      <section className="w-full bg-gray-100 py-10 mt-10 mb-10">
+      <section className="w-full bg-gray-100 py-10 mt-4 mb-10">
         <div className="max-w-screen-xl mx-auto px-3 sm:px-6 md:px-8 lg:px-36">
-          <div className="flex flex-col lg:flex-row gap-10">
+          <div className="flex flex-col lg:flex-row gap-10 lg:items-center">
             {/* Left Column: Welcome Note */}
             <div className="lg:w-1/3 shrink-0">
               <div className="bg-white rounded-lg shadow p-6 sticky top-10">

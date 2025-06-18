@@ -53,7 +53,8 @@ export default function Timeline() {
       icon: "fa-download",
       title: "100K+ Installations",
       date: "18th December, 2021",
-      description: "SRIYOG app reached 100K+ Installations from Google Play Store.",
+      description:
+        "SRIYOG app reached 100K+ Installations from Google Play Store.",
       link: { href: "https://bit.ly/sriyog", label: "Browse" },
       right: false,
     },
@@ -61,7 +62,8 @@ export default function Timeline() {
       icon: "fa-download",
       title: "50K+ Installations",
       date: "23rd March, 2021",
-      description: "SRIYOG app reached 50K+ Installations from Google Play Store.",
+      description:
+        "SRIYOG app reached 50K+ Installations from Google Play Store.",
       link: { href: "https://bit.ly/sriyog", label: "Browse" },
       right: true,
     },
@@ -92,61 +94,76 @@ export default function Timeline() {
   ];
 
   return (
-    <section className="bg-gray-100 py-16 pb-32">
-      <div className="relative mx-auto px-3 sm:px-6 md:px-8 lg:px-36 text-black max-w-screen-xl">
-        {/* Vertical line */}
-        <div
-          className="absolute left-1/2 transform -translate-x-1/2 h-full border-l-4"
-          style={{ borderColor: "#8b1414" }}
-        ></div>
+    <section className="overflow-x-hidden">
+      <div className="mx-auto relative px-[10px] container px-3 sm:px-6 md:px-8 lg:px-36 text-black max-w-screen-xl">
+        {/* Vertical line in red */}
+        <div className="absolute left-[50%] top-0 h-full w-[4px] bg-[#8b1414] transform -translate-x-1/2 z-0 max-md:translate-x-0 max-lg:left-[11%] max-lg:translate-x-0"></div>
 
         {timelineData.map((item, idx) => {
           const isRight = item.right;
-          const justify = isRight ? "md:justify-end" : "md:justify-start";
-          const alignment = isRight ? "items-start md:pl-8" : "items-start md:pr-8";
-          const cardArrow = isRight
-            ? "before:content-[''] before:absolute before:top-4 before:-left-4 before:border-[8px] before:border-transparent before:border-r-white"
-            : "before:content-[''] before:absolute before:top-4 before:-right-4 before:border-[8px] before:border-transparent before:border-l-white";
+          const circleLeft = "left-[50%] max-md:left-[10%] max-lg:left-[10%]";
+          const cardAlign = isRight
+            ? "w-[45%] bg-[#ffffff] pb-[20px] ml-auto rounded relative mt-10 max-md:ml-auto max-md:mr-0 max-md:w-[80%] max-lg:ml-auto max-lg:mr-0 max-lg:w-[80%]"
+            : "w-[45%] bg-[#ffffff] pb-[20px] mr-auto rounded relative mt-10 max-md:ml-auto max-md:mr-0 max-md:w-[80%] max-lg:ml-auto max-lg:mr-0 max-lg:w-[80%]";
+
+          // Pointer styles conditional
+          const pointerRightSide =
+            "absolute right-[-10px] top-[20px] w-0 h-0 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-l-[10px] border-l-[#8B1414]";
+
+          const pointerLeftSide =
+            "absolute left-[-10px] top-[20px] w-0 h-0 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-r-[10px] border-r-[#8B1414]";
 
           return (
-            <div
-              key={idx}
-              className={`mb-16 flex flex-col md:flex-row ${justify} relative`}
-            >
-              {/* Icon */}
+            <div key={idx} className="mb-[50px]  relative min-h-[100px]">
+              {/* Circle Icon in red */}
               <div
-                className="z-10 absolute left-1/2 transform -translate-x-1/2 bg-[#8b1414] w-12 h-12 rounded-full flex items-center justify-center text-white text-xl shadow-lg"
+                className={`bg-[#8b1414] w-[50px] h-[50px] text-[23px] text-white text-center absolute top-0 ${circleLeft} -translate-x-1/2 overflow-hidden rounded-full flex items-center justify-center z-10`}
               >
-                <i className={`fas ${item.icon}`}></i>
+                <i
+                  className={`fas ${
+                    item.title === "React Native on Android"
+                      ? item.right
+                        ? "fa-arrow-left"
+                        : "fa-arrow-right"
+                      : item.icon
+                  }`}
+                />
               </div>
 
-              {/* Card */}
-              <div
-                className={`relative w-full md:w-1/2 mt-12 md:mt-0 ${alignment}`}
-              >
+              {/* Card Content */}
+              <div className={cardAlign}>
+                {/* Triangle pointer */}
+                {/* Use pointerLeftSide for right cards, pointerRightSide for left cards */}
                 <div
-                  className={`relative bg-white shadow-md rounded p-6 border-t-4 ${cardArrow}`}
-                  style={{ borderTopColor: "#8b1414" }}
-                >
-                  <h3
-                    className="text-lg font-bold mb-1"
-                    style={{ color: "#8b1414" }}
-                  >
-                    {item.title}
-                  </h3>
-                  <p className="text-xs text-gray-500 mb-2">{item.date}</p>
-                  <p className="text-gray-700 mb-3">{item.description}</p>
-                  {item.link && (
-                    <a
-                      href={item.link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block text-sm px-4 py-2 rounded transition"
-                      style={{ backgroundColor: "#8b1414", color: "white" }}
-                    >
-                      {item.link.label}
-                    </a>
-                  )}
+                  className={`
+                    ${isRight ? pointerLeftSide : pointerRightSide}
+                    max-lg:left-[-10px] max-lg:right-auto max-lg:border-l-0 max-lg:border-r-[10px] max-lg:border-r-[#8B1414]
+                  `}
+                ></div>
+
+                <div className="rounded overflow-hidden bg-gray-100">
+                  {/* Red header bar */}
+                  <div className="h-[60px] bg-[#8b1414] flex items-center px-6">
+                    <h3 className="text-normal font-bold text-white m-0">
+                      {item.title}
+                    </h3>
+                  </div>
+
+                  {/* Main content section */}
+                  <div className="p-6">
+                    <p className="text-xs text-gray-500 mb-2">{item.date}</p>
+                    <p className="text-gray-700 mb-3">{item.description}</p>
+                    {item.link && (
+                      <a
+                        href={item.link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block text-sm px-4 py-2 rounded transition bg-[#8b1414] text-white"
+                      >
+                        {item.link.label}
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
