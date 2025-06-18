@@ -24,12 +24,14 @@ export default function Header() {
             href="/"
             className="flex items-center space-x-1 rtl:space-x-reverse"
           >
-            <img
+            <Image
               src="/images/logo.svg"
               className="navlogo h-9 sm:h-10 md:h-12 lg:h-14"
               alt="SRIYOG Logo"
+              width={150}
+              height={150}
             />
-            <span className="ime-pay self-center text-xs sm:text-sm md:text-base font-medium whitespace-nowrap text-black">
+            <span className="ime-pay self-center text-xs sm:text-sm md:text-base font-medium whitespace-nowrap text-black -ml-4 sm:-ml-2 md:ml-1">
               | App
             </span>
           </Link>
@@ -54,10 +56,12 @@ export default function Header() {
             </ul>
             <div className="flex items-center space-x-2 md:space-x-2 mr-2 sm:mr-4 md:mr-6 lg:mr-10 max-[1103px]:mr-4 max-[1103px]:ml-4">
               <Link href="/join">
-                <img
+                <Image
                   src="/images/join-now.png"
-                  className="join-now_img h-8"
+                  className="h-8"
                   alt="Join Now"
+                  width={80}
+                  height={80}
                 />
               </Link>
               <Link
@@ -65,10 +69,12 @@ export default function Header() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img
+                <Image
                   src="/images/mail.svg"
-                  className="mail_img h-8 ml-3"
+                  className="mail_Image h-8 ml-3"
                   alt="Mail"
+                  width={80}
+                  height={80}
                 />
               </Link>
             </div>
@@ -143,14 +149,22 @@ export default function Header() {
             Contact
           </Link>
           <Link href="/join">
-            <img
+            <Image
               src="/images/join-now.png"
               className="h-8 mb-2"
               alt="Join Now"
+              width={80}
+              height={50}
             />
           </Link>
-          <Link href="/mail">
-            <img src="/images/mail.svg" className="h-8" alt="Mail" />
+          <Link href="https://mail.yandex.com">
+            <Image
+              src="/images/mail.svg"
+              className="h-8"
+              alt="Mail"
+              width={50}
+              height={50}
+            />
           </Link>
         </div>
       </div>
