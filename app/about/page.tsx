@@ -78,7 +78,7 @@ const page = () => {
 
             {/* Right Image Section */}
             <div className="w-full lg:w-5/12">
-              <div className="relative rounded shadow-md overflow-hidden h-[300px] md:h-[400px] bg-gray-100">
+              <div className="relative min-h-[500px] h-full rounded shadow-md overflow-hidden bg-gray-100 flex flex-col justify-end">
                 {/* Background Image */}
                 <Image
                   src="/images/mayor.jpg"
