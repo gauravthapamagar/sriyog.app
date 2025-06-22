@@ -8,58 +8,62 @@ const teamMembers = [
   {
     name: "Yogendra Dhamala",
     position: "Chief Executive Officer",
-    image: "/images/yogendra.jpg",
+    image: "/images/team/yogendra.jpg",
   },
   {
     name: "Achut Chalise",
     position: "Chief Operating Officer",
-    image: "/images/achut.png",
+    image: "/images/team/achut.png",
   },
   {
     name: "Kishor Baskota",
     position: "Chief Financial Officer",
-    image: "/images/kishor.png",
+    image: "/images/team/kishor.png",
   },
   {
     name: "Pankaj Ghimire",
     position: "Chief Branding Officer",
-    image: "/images/pankaj.png",
+    image: "/images/team/pankaj.png",
   },
   {
     name: "Sudhir Nepal",
     position: "Chief Media Officer",
-    image: "/images/sudhir.png",
+    image: "/images/team/sudhir.png",
   },
   {
     name: "Aavash Adhikari",
     position: "Sr. Community Manager",
-    image: "/images/aavash.png",
+    image: "/images/team/aavash.png",
   },
   {
     name: "Sobitmaan Shrestha",
     position: "Chief Digital Strategist",
-    image: "/images/sobit.png",
+    image: "/images/team/sobit.png",
   },
-  { name: "Isha Sunam", position: "Data Manager", image: "/images/isha.png" },
+  {
+    name: "Isha Sunam",
+    position: "Data Manager",
+    image: "/images/team/isha.png",
+  },
   {
     name: "Suraj Majhi",
     position: "Business Manager",
-    image: "/images/suraj.png",
+    image: "/images/team/suraj.png",
   },
   {
     name: "Nischal Bhagat",
     position: "UAE Team Leader",
-    image: "/images/nischal.png",
+    image: "/images/team/nischal.png",
   },
   {
     name: "Falguni Dahal",
     position: "Community Manager",
-    image: "/images/falguni.png",
+    image: "/images/team/falguni.png",
   },
   {
     name: "Dipak Bohora",
     position: "Community Manager",
-    image: "/images/dipak.png",
+    image: "/images/team/dipak.png",
   },
 ];
 

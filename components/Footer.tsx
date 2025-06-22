@@ -91,7 +91,7 @@ const Footer = () => {
                 <li>
                   <Link href="/join">
                     <Image
-                      src="/images/join-now.png"
+                      src="/images/footer/join-now.png"
                       alt="Join Now"
                       width={64}
                       height={23}
@@ -206,7 +206,7 @@ const Footer = () => {
 
         {/* Footer Banner */}
         <Image
-          src="/images/footer.png"
+          src="/images/footer/footer.png"
           alt="Landmark Silhouettes"
           width={1920}
           height={100}

@@ -81,7 +81,7 @@ const page = () => {
               <div className="relative min-h-[500px] h-full rounded shadow-md overflow-hidden bg-gray-100 flex flex-col justify-end">
                 {/* Background Image */}
                 <Image
-                  src="/images/mayor.jpg"
+                  src="/images/about/mayor.jpg"
                   alt="mayor"
                   fill
                   className="absolute inset-0 w-full h-full object-cover"
@@ -109,7 +109,7 @@ const page = () => {
               {/* Card 1 */}
               <div className="flex items-start gap-4">
                 <Image
-                  src="/images/team.svg"
+                  src="/images/about/team.svg"
                   alt="team"
                   width={48}
                   height={48}
@@ -129,7 +129,7 @@ const page = () => {
               {/* Card 2 */}
               <div className="flex items-start gap-4">
                 <Image
-                  src="/images/building.svg"
+                  src="/images/about/building.svg"
                   alt="global reach"
                   width={48}
                   height={48}
@@ -150,7 +150,7 @@ const page = () => {
               {/* Card 3 */}
               <div className="flex items-start gap-4">
                 <Image
-                  src="/images/flag.svg"
+                  src="/images/about/flag.svg"
                   alt="opportunities"
                   width={48}
                   height={48}
@@ -171,7 +171,7 @@ const page = () => {
               {/* Card 4 */}
               <div className="flex items-start gap-4">
                 <Image
-                  src="/images/skills.svg"
+                  src="/images/about/skills.svg"
                   alt="ai ml"
                   width={48}
                   height={48}
@@ -221,32 +221,32 @@ const page = () => {
               <div className="flex gap-6 min-w-max">
                 {[
                   {
-                    img: "/images/photoscroll1.jpg",
+                    img: "/images/about/photoscroll1.jpg",
                     text: "Company Registration",
                     date: "14th June, 2018",
                   },
                   {
-                    img: "/images/photoscroll2.jpg",
+                    img: "/images/about/photoscroll2.jpg",
                     text: "Inaugurated at Kathmandu",
                     date: "12th September, 2019",
                   },
                   {
-                    img: "/images/photoscroll3.jpg",
+                    img: "/images/about/photoscroll3.jpg",
                     text: "MoU With MAW Skills",
                     date: "31st December, 2019",
                   },
                   {
-                    img: "/images/photoscroll4.jpg",
+                    img: "/images/about/photoscroll4.jpg",
                     text: "Karmashil Award Ceremony",
                     date: "12th September, 2022",
                   },
                   {
-                    img: "/images/photoscroll5.jpg",
+                    img: "/images/about/photoscroll5.jpg",
                     text: "MoU with IME Pay",
                     date: "8th February, 2023",
                   },
                   {
-                    img: "/images/photoscroll6.jpg",
+                    img: "/images/about/photoscroll6.jpg",
                     text: "New App Launched",
                     date: "17th May, 2024",
                   },

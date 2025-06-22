@@ -26,12 +26,12 @@ export default function Header() {
           >
             <Image
               src="/images/logo.svg"
-              className="navlogo h-9 sm:h-10 md:h-12 lg:h-14"
+              className="navlogo"
               alt="SRIYOG Logo"
               width={180}
               height={180}
             />
-            <span className="ime-pay self-center text-xs sm:text-sm md:text-base font-medium whitespace-nowrap text-black -ml-4 sm:-ml-2 md:ml-1">
+            <span className="ime-pay self-center text-xs sm:text-sm md:text-base font-medium whitespace-nowrap text-black ">
               | App
             </span>
           </Link>

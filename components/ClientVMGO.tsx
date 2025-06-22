@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "Learn about SRIYOG, its mission, and impact.",
 };
 
-const images = ["/images/1.jpg", "/images/2.jpg"];
+const images = ["/images/about/1.jpg", "/images/about/2.jpg"];
 
 export default function ClientVMGO() {
   const [currentIndex, setCurrentIndex] = useState(0);
