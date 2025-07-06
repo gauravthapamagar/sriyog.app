@@ -1,8 +1,43 @@
 "use client";
+
 import React, { useState } from "react";
 
+interface JoinFormData {
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  phoneNumber: string;
+  professionsSkills: string;
+  genderPersonal: string;
+  city: string;
+  wardNo: string;
+  workingArea: string;
+  referredBy: string;
+  experience: string;
+  training: string;
+  trainingStartDate: string;
+  trainingEndDate: string;
+  dateOfBirth: string;
+  genderId: string;
+  bloodGroup: string;
+  maritalStatus: string;
+  idType: string;
+  idNumber: string;
+  permanentState: string;
+  permanentDistrict: string;
+  permanentMunicipality: string;
+  permanentArea: string;
+  permanentLandmark: string;
+  currentState: string;
+  currentDistrict: string;
+  currentMunicipality: string;
+  currentArea: string;
+  currentWard: string;
+  currentLandmark: string;
+}
+
 const JoinForm = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<JoinFormData>({
     firstName: "",
     middleName: "",
     lastName: "",
@@ -36,7 +71,6 @@ const JoinForm = () => {
     currentLandmark: "",
   });
 
-  // Handle input changes
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -49,20 +83,26 @@ const JoinForm = () => {
     }));
   };
 
-  // Handle form submit
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Basic validation example
-    if (!formData.firstName || !formData.lastName || !formData.phoneNumber) {
-      alert(
-        "Please fill all required fields (First Name, Last Name, Phone Number)."
-      );
-      return;
-    }
-    console.log("Submitted data:", formData);
-    alert("Form submitted successfully!");
-  };
 
+    try {
+      const response = await fetch("/api/join", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) throw new Error("Failed to submit");
+
+      const result = await response.json();
+      alert("Form submitted successfully!");
+      console.log("Inserted ID:", result.insertedId);
+    } catch (error) {
+      console.error("Submission error:", error);
+      alert("Form submission failed.");
+    }
+  };
   return (
     <>
       <section className="max-w-5xl p-6 mx-auto rounded-md shadow-xl border border-gray-200 mt-10 mb-20">

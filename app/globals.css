@@ -45,3 +45,8 @@ input[type="file"],
 select {
   @apply text-sm text-gray-700;
 }
+input,
+textarea,
+select {
+  @apply text-sm text-gray-700;
+}
