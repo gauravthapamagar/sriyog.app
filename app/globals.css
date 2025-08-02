@@ -36,3 +36,17 @@ html {
 .swiper-button-next {
   @apply -right-8; /* Move more to the right */
 }
+input::placeholder,
+textarea::placeholder {
+  @apply text-sm text-gray-400;
+}
+input[type="date"],
+input[type="file"],
+select {
+  @apply text-sm text-gray-700;
+}
+input,
+textarea,
+select {
+  @apply text-sm text-gray-700;
+}
