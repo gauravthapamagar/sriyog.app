@@ -113,22 +113,22 @@ const JoinForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // try {
-    //   const response = await fetch("/api/join", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(formData),
-    //   });
+    try {
+      const response = await fetch("/api/join", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    //   if (!response.ok) throw new Error("Failed to submit");
+      if (!response.ok) throw new Error("Failed to submit");
 
-    //   const result = await response.json();
-    //   alert("Form submitted successfully!");
-    //   console.log("Inserted ID:", result.insertedId);
-    // } catch (error) {
-    //   console.error("Submission error:", error);
-    //   alert("Form submission failed.");
-    // }
+      const result = await response.json();
+      alert("Form submitted successfully!");
+      console.log("Inserted ID:", result.insertedId);
+    } catch (error) {
+      console.error("Submission error:", error);
+      alert("Form submission failed.");
+    }
   };
   return (
     <>
