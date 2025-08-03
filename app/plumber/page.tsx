@@ -82,8 +82,8 @@ export default async function FeaturesSection() {
                   key={String(item._id)}
                   className="flex flex-col items-center text-center rounded-xl p-2 min-h-[400px] shadow-md border border-gray-300 bg-gray-100 hover:shadow-xl transition duration-300"
                 >
-                  <Link
-                    href={`/professions/${item?.["First Name"]}`}
+                  <div
+                    // href={`/professions/${item?.["First Name"]}`}
                     className=" w-full h-full flex flex-col items-center justify-center -mt-2"
                   >
                     <Image
@@ -97,25 +97,25 @@ export default async function FeaturesSection() {
                       {item?.["First Name"]} {item?.["Last Name"]}
                     </span>
                     <span className="text-sm font-medium text-gray-600 mt-1">
-                      {item?.Phone}
+                      {String(item?.Phone).slice(-10)}
                     </span>
                     <span className="text-lg font-bold text-gray-700 mt-1">
                       {item?.Profession}
                     </span>
-                    <span className="text-sm font-bold text-gray-700 mt-1">
-                      {item?.Area}
-                    </span>
+                          {/* <span className="text-sm font-bold text-gray-700 mt-1">
+                            {item?.Area}
+                          </span> */}
                     <span className="text-xs font-medium text-gray-700 mt-1">
                       {item?.City}
                     </span>
 
-                    <button
-                      type="button"
+                    <div
+                      // type="button"
                       className="mt-8 text-black border border-gray-300 hover:bg-[#8b1414] hover:text-white cursor-pointer transition duration-200 font-medium rounded-lg text-sm px-5 py-2 shadow-sm"
                     >
-                      Book Now
-                    </button>
-                  </Link>
+                      <a href={`tel:${String(item?.Phone).slice(-10)}`}> Call Now</a>
+                    </div>
+                  </div>
                 </div>
               ))
             )}
