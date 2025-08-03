@@ -1,7 +1,9 @@
-"use client";
+// FILE: app/join/JoinForm.tsx
 
+"use client";
 import React, { useState } from "react";
 
+// This interface matches the fields on the form itself
 interface JoinFormData {
   firstName: string;
   middleName: string;
@@ -70,11 +72,23 @@ const JoinForm = () => {
     currentWard: "",
     currentLandmark: "",
   });
+
+  const [headshotFile, setHeadshotFile] = useState<File | null>(null);
+  const [idFile, setIdFile] = useState<File | null>(null);
   const [isSameAddress, setIsSameAddress] = useState(false);
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleSameAddressToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
     setIsSameAddress(checked);
-
     if (checked) {
       setFormData((prev) => ({
         ...prev,
@@ -98,39 +112,48 @@ const JoinForm = () => {
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+    if (files && files.length > 0) {
+      if (name === "profilePicture") setHeadshotFile(files[0]);
+      else if (name === "idUpload") setIdFile(files[0]);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const submissionData = new FormData();
+
+    for (const key in formData) {
+      submissionData.append(key, formData[key as keyof JoinFormData]);
+    }
+    if (headshotFile) submissionData.append("headshot", headshotFile);
+    if (idFile) submissionData.append("idUpload", idFile);
 
     try {
       const response = await fetch("/api/join", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: submissionData,
       });
 
-      if (!response.ok) throw new Error("Failed to submit");
+      if (!response.ok) {
+        // This block will run if the server returns a 4xx or 5xx error
+        const errorResult = await response.json(); // Try to parse the error JSON from the server
+        throw new Error(errorResult.details || "A server error occurred.");
+      }
 
       const result = await response.json();
       alert("Form submitted successfully!");
-      console.log("Inserted ID:", result.insertedId);
+      console.log("Server response:", result);
     } catch (error) {
-      console.error("Submission error:", error);
-      alert("Form submission failed.");
+      const err = error as Error;
+      console.error("Submission error:", err);
+      alert(`Form submission failed: ${err.message}`);
     }
   };
+
   return (
+    // Your full JSX form goes here. It does not need to be changed.
     <>
       <section className="max-w-5xl p-6 mx-auto rounded-md shadow-xl border border-gray-200 mt-10 mb-20">
         <h1 className="text-4xl text-center font-bold text-black ">
@@ -140,6 +163,7 @@ const JoinForm = () => {
           Please fill this form to join SRIYOG Consulting
         </h4>
         <form onSubmit={handleSubmit}>
+          {/* ... PASTE YOUR ENTIRE 800+ LINE FORM JSX HERE ... */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
             {/* Personal Details */}
             <h2 className="text-xl font-semibold md:col-span-2">
@@ -216,7 +240,7 @@ const JoinForm = () => {
               <textarea
                 id="professionsSkills"
                 name="professionsSkills"
-                placeholder="e.g., Software Engineer, Graphic Designer, Content Writer"
+                placeholder="e.g., Software Engineer, Graphic Designer"
                 value={formData.professionsSkills}
                 onChange={handleChange}
                 rows={1}
@@ -243,7 +267,7 @@ const JoinForm = () => {
                       <input
                         type="radio"
                         name="genderPersonal"
-                        value={gender.toLowerCase().replace(/\s+/g, "")} // "preferNotTosay"
+                        value={gender.toLowerCase().replace(/\s+/g, "")}
                         checked={
                           formData.genderPersonal ===
                           gender.toLowerCase().replace(/\s+/g, "")
@@ -335,6 +359,7 @@ const JoinForm = () => {
                   name="profilePicture"
                   type="file"
                   accept="image/*"
+                  onChange={handleFileChange}
                   className="text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-600 hover:file:bg-red-100"
                 />
               </div>
@@ -354,7 +379,7 @@ const JoinForm = () => {
                 name="experience"
                 type="text"
                 required
-                placeholder="e.g., 3 years 6 months or 4.5 years"
+                placeholder="e.g., 3 years 6 months"
                 value={formData.experience}
                 onChange={handleChange}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md"
@@ -381,7 +406,6 @@ const JoinForm = () => {
                 <option value="digitalMarketing">Digital Marketing</option>
               </select>
               <div className="pointer-events-none absolute top-11 right-0 flex items-center pr-3">
-                {/* Custom arrow SVG */}
                 <svg
                   className="w-4 h-4 text-gray-700"
                   xmlns="http://www.w3.org/2000/svg"
@@ -486,7 +510,6 @@ const JoinForm = () => {
               </div>
             </div>
 
-            {/* Blood Group */}
             <div className="relative">
               <label htmlFor="bloodGroup" className="text-black text-sm">
                 Blood Group
@@ -525,7 +548,6 @@ const JoinForm = () => {
               </div>
             </div>
 
-            {/* Marital Status */}
             <div className="relative">
               <label htmlFor="maritalStatus" className="text-black text-sm">
                 Marital Status
@@ -562,17 +584,19 @@ const JoinForm = () => {
 
             <div>
               <label
-                htmlFor="profilePicture"
+                htmlFor="idUpload"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
                 Upload ID <span className="text-red-600">*</span>
               </label>
               <div className="flex items-center justify-between w-full p-3 border border-gray-300 rounded-md hover:bg-gray-100 transition">
                 <input
-                  id="profilePicture"
-                  name="profilePicture"
+                  id="idUpload"
+                  name="idUpload"
                   type="file"
                   accept="image/*,.pdf"
+                  required
+                  onChange={handleFileChange}
                   className="text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-600 hover:file:bg-red-100"
                 />
               </div>
@@ -631,7 +655,7 @@ const JoinForm = () => {
 
             {/* Address Details */}
             <h2 className="text-xl font-semibold md:col-span-2 mt-6">
-              Address Details
+              Permanent Address
             </h2>
 
             <div>
@@ -714,7 +738,6 @@ const JoinForm = () => {
               />
             </div>
 
-            {/* Current Address */}
             <div className="md:col-span-2 mt-4 flex items-center gap-4">
               <h3 className="text-md font-semibold">Current Address</h3>
               <label className="inline-flex items-center text-sm text-gray-700">
@@ -724,7 +747,7 @@ const JoinForm = () => {
                   onChange={handleSameAddressToggle}
                   className="form-checkbox text-green-600 mr-2"
                 />
-                Same as above
+                Same as permanent address
               </label>
             </div>
 
@@ -809,7 +832,6 @@ const JoinForm = () => {
                 min={1}
                 value={formData.currentWard}
                 onChange={handleChange}
-                readOnly={isSameAddress}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md"
               />
             </div>
@@ -830,7 +852,6 @@ const JoinForm = () => {
               />
             </div>
           </div>
-
           <div className="flex justify-end mt-6">
             <button
               type="submit"
@@ -844,5 +865,4 @@ const JoinForm = () => {
     </>
   );
 };
-
 export default JoinForm;
