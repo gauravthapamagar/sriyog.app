@@ -535,7 +535,7 @@ export default function App() {
           {/* Person 1 */}
           <div className="w-full lg:w-1/3 text-center px-4 text-black">
             <Image
-              src="/images/niranjan.png"
+              src="/images/contact/niranjan.png"
               alt="Niranjan Sharma"
               width={192}
               height={192}
@@ -555,7 +555,7 @@ export default function App() {
           {/* Person 2 */}
           <div className="w-full lg:w-1/3 text-center px-4 text-black">
             <Image
-              src="/images/aashish.png"
+              src="/images/contact/aashish.png"
               alt="Aashis Sunar"
               width={192}
               height={192}
@@ -575,7 +575,7 @@ export default function App() {
           {/* Person 3 */}
           <div className="w-full lg:w-1/3 text-center px-4 text-black">
             <Image
-              src="/images/surajjj.png"
+              src="/images/contact/surajjj.png"
               alt="Suraj Majhi"
               width={192}
               height={192}
