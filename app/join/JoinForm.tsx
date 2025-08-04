@@ -1,7 +1,9 @@
-"use client";
+// FILE: app/join/JoinForm.tsx
 
+"use client";
 import React, { useState } from "react";
 
+// This interface matches the fields on the form itself
 interface JoinFormData {
   firstName: string;
   middleName: string;
@@ -71,39 +73,87 @@ const JoinForm = () => {
     currentLandmark: "",
   });
 
+  const [headshotFile, setHeadshotFile] = useState<File | null>(null);
+  const [idFile, setIdFile] = useState<File | null>(null);
+  const [isSameAddress, setIsSameAddress] = useState(false);
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSameAddressToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked;
+    setIsSameAddress(checked);
+    if (checked) {
+      setFormData((prev) => ({
+        ...prev,
+        currentState: prev.permanentState,
+        currentDistrict: prev.permanentDistrict,
+        currentMunicipality: prev.permanentMunicipality,
+        currentArea: prev.permanentArea,
+        currentWard: "",
+        currentLandmark: prev.permanentLandmark,
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        currentState: "",
+        currentDistrict: "",
+        currentMunicipality: "",
+        currentArea: "",
+        currentWard: "",
+        currentLandmark: "",
+      }));
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+    if (files && files.length > 0) {
+      if (name === "profilePicture") setHeadshotFile(files[0]);
+      else if (name === "idUpload") setIdFile(files[0]);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const submissionData = new FormData();
 
-    // try {
-    //   const response = await fetch("/api/join", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(formData),
-    //   });
+    for (const key in formData) {
+      submissionData.append(key, formData[key as keyof JoinFormData]);
+    }
+    if (headshotFile) submissionData.append("headshot", headshotFile);
+    if (idFile) submissionData.append("idUpload", idFile);
 
-    //   if (!response.ok) throw new Error("Failed to submit");
+    try {
+      const response = await fetch("/api/join", {
+        method: "POST",
+        body: submissionData,
+      });
 
-    //   const result = await response.json();
-    //   alert("Form submitted successfully!");
-    //   console.log("Inserted ID:", result.insertedId);
-    // } catch (error) {
-    //   console.error("Submission error:", error);
-    //   alert("Form submission failed.");
-    // }
+      if (!response.ok) {
+        // This block will run if the server returns a 4xx or 5xx error
+        const errorResult = await response.json(); // Try to parse the error JSON from the server
+        throw new Error(errorResult.details || "A server error occurred.");
+      }
+
+      const result = await response.json();
+      alert("Form submitted successfully!");
+      console.log("Server response:", result);
+    } catch (error) {
+      const err = error as Error;
+      console.error("Submission error:", err);
+      alert(`Form submission failed: ${err.message}`);
+    }
   };
+
   return (
+    // Your full JSX form goes here. It does not need to be changed.
     <>
       <section className="max-w-5xl p-6 mx-auto rounded-md shadow-xl border border-gray-200 mt-10 mb-20">
         <h1 className="text-4xl text-center font-bold text-black ">
@@ -113,6 +163,7 @@ const JoinForm = () => {
           Please fill this form to join SRIYOG Consulting
         </h4>
         <form onSubmit={handleSubmit}>
+          {/* ... PASTE YOUR ENTIRE 800+ LINE FORM JSX HERE ... */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
             {/* Personal Details */}
             <h2 className="text-xl font-semibold md:col-span-2">
@@ -189,7 +240,7 @@ const JoinForm = () => {
               <textarea
                 id="professionsSkills"
                 name="professionsSkills"
-                placeholder="e.g., Software Engineer, Graphic Designer, Content Writer"
+                placeholder="e.g., Software Engineer, Graphic Designer"
                 value={formData.professionsSkills}
                 onChange={handleChange}
                 rows={1}
@@ -199,23 +250,37 @@ const JoinForm = () => {
             </div>
 
             <div>
-              <label htmlFor="genderPersonal" className="text-black text-sm">
-                Gender <span className="text-red-600">*</span>
-              </label>
-              <select
-                id="genderPersonal"
-                name="genderPersonal"
-                value={formData.genderPersonal}
-                onChange={handleChange}
-                required
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md"
+              <span className="text-black text-sm block mb-2">
+                Gender: <span className="text-red-600">*</span>
+              </span>
+              <div
+                role="radiogroup"
+                aria-labelledby="genderLabel"
+                className="flex flex-wrap gap-x-6 gap-y-2"
               >
-                <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-                <option value="preferNotToSay">Prefer not to say</option>
-              </select>
+                {["Male", "Female", "Other", "Prefer not to say"].map(
+                  (gender) => (
+                    <label
+                      key={gender}
+                      className="inline-flex items-center text-gray-700 whitespace-nowrap cursor-pointer text-sm"
+                    >
+                      <input
+                        type="radio"
+                        name="genderPersonal"
+                        value={gender.toLowerCase().replace(/\s+/g, "")}
+                        checked={
+                          formData.genderPersonal ===
+                          gender.toLowerCase().replace(/\s+/g, "")
+                        }
+                        onChange={handleChange}
+                        required
+                        className="form-radio text-green-600"
+                      />
+                      <span className="ml-2">{gender}</span>
+                    </label>
+                  )
+                )}
+              </div>
             </div>
 
             <div>
@@ -282,16 +347,22 @@ const JoinForm = () => {
             </div>
 
             <div>
-              <label htmlFor="profilePicture" className="text-black text-sm">
+              <label
+                htmlFor="profilePicture"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Headshot / Profile Picture
               </label>
-              <input
-                id="profilePicture"
-                name="profilePicture"
-                type="file"
-                accept="image/*"
-                className="block w-full mt-2 text-gray-700 bg-white border border-gray-300 rounded-md"
-              />
+              <div className="flex items-center justify-between w-full p-3 border border-gray-300 rounded-md hover:bg-gray-100 transition">
+                <input
+                  id="profilePicture"
+                  name="profilePicture"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-600 hover:file:bg-red-100"
+                />
+              </div>
             </div>
 
             {/* Experience Details */}
@@ -308,14 +379,14 @@ const JoinForm = () => {
                 name="experience"
                 type="text"
                 required
-                placeholder="e.g., 3 years 6 months or 4.5 years"
+                placeholder="e.g., 3 years 6 months"
                 value={formData.experience}
                 onChange={handleChange}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md"
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label htmlFor="training" className="text-black text-sm">
                 Training
               </label>
@@ -324,7 +395,7 @@ const JoinForm = () => {
                 name="training"
                 value={formData.training}
                 onChange={handleChange}
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md"
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md appearance-none"
               >
                 <option value="">Select Training</option>
                 <option value="softwareDevelopment">
@@ -334,6 +405,21 @@ const JoinForm = () => {
                 <option value="graphicDesign">Graphic Design</option>
                 <option value="digitalMarketing">Digital Marketing</option>
               </select>
+              <div className="pointer-events-none absolute top-11 right-0 flex items-center pr-3">
+                <svg
+                  className="w-4 h-4 text-gray-700"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 md:col-span-2">
@@ -389,7 +475,7 @@ const JoinForm = () => {
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label htmlFor="genderId" className="text-black text-sm">
                 Gender <span className="text-red-600">*</span>
               </label>
@@ -399,7 +485,7 @@ const JoinForm = () => {
                 value={formData.genderId}
                 required
                 onChange={handleChange}
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md"
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md appearance-none"
               >
                 <option value="">Select Gender</option>
                 <option value="male">Male</option>
@@ -407,9 +493,24 @@ const JoinForm = () => {
                 <option value="other">Other</option>
                 <option value="preferNotToSay">Prefer not to say</option>
               </select>
+              <div className="pointer-events-none absolute top-11 right-0 flex items-center pr-3">
+                <svg
+                  className="w-4 h-4 text-gray-700"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
             </div>
 
-            <div>
+            <div className="relative">
               <label htmlFor="bloodGroup" className="text-black text-sm">
                 Blood Group
               </label>
@@ -418,7 +519,7 @@ const JoinForm = () => {
                 name="bloodGroup"
                 value={formData.bloodGroup}
                 onChange={handleChange}
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md"
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md appearance-none"
               >
                 <option value="">Select Blood Group</option>
                 <option value="A+">A+</option>
@@ -430,9 +531,24 @@ const JoinForm = () => {
                 <option value="O+">O+</option>
                 <option value="O-">O-</option>
               </select>
+              <div className="pointer-events-none absolute top-11 right-0 flex items-center pr-3">
+                <svg
+                  className="w-4 h-4 text-gray-700"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
             </div>
 
-            <div>
+            <div className="relative">
               <label htmlFor="maritalStatus" className="text-black text-sm">
                 Marital Status
               </label>
@@ -441,7 +557,7 @@ const JoinForm = () => {
                 name="maritalStatus"
                 value={formData.maritalStatus}
                 onChange={handleChange}
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md"
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md appearance-none"
               >
                 <option value="">Select Marital Status</option>
                 <option value="single">Single</option>
@@ -449,20 +565,41 @@ const JoinForm = () => {
                 <option value="divorced">Divorced</option>
                 <option value="widowed">Widowed</option>
               </select>
+              <div className="pointer-events-none absolute top-11 right-0 flex items-center pr-3">
+                <svg
+                  className="w-4 h-4 text-gray-700"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
             </div>
 
-            <div className="md:col-span-2">
-              <label htmlFor="uploadId" className="text-black text-sm">
+            <div>
+              <label
+                htmlFor="idUpload"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Upload ID <span className="text-red-600">*</span>
               </label>
-              <input
-                id="uploadId"
-                name="uploadId"
-                type="file"
-                required
-                accept="image/*,.pdf"
-                className="block w-full mt-2 text-gray-700 bg-white border border-gray-300 rounded-md"
-              />
+              <div className="flex items-center justify-between w-full p-3 border border-gray-300 rounded-md hover:bg-gray-100 transition">
+                <input
+                  id="idUpload"
+                  name="idUpload"
+                  type="file"
+                  accept="image/*,.pdf"
+                  required
+                  onChange={handleFileChange}
+                  className="text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-600 hover:file:bg-red-100"
+                />
+              </div>
             </div>
 
             <div className="md:col-span-2">
@@ -483,7 +620,7 @@ const JoinForm = () => {
                 ].map((idType) => (
                   <label
                     key={idType}
-                    className="inline-flex items-center text-gray-700 whitespace-nowrap cursor-pointer"
+                    className="inline-flex items-center text-gray-700 whitespace-nowrap cursor-pointer text-sm"
                   >
                     <input
                       type="radio"
@@ -518,7 +655,7 @@ const JoinForm = () => {
 
             {/* Address Details */}
             <h2 className="text-xl font-semibold md:col-span-2 mt-6">
-              Address Details
+              Permanent Address
             </h2>
 
             <div>
@@ -601,10 +738,18 @@ const JoinForm = () => {
               />
             </div>
 
-            {/* Current Address */}
-            <h3 className="text-md font-semibold md:col-span-2 mt-4">
-              Current Address (Same as Above)
-            </h3>
+            <div className="md:col-span-2 mt-4 flex items-center gap-4">
+              <h3 className="text-md font-semibold">Current Address</h3>
+              <label className="inline-flex items-center text-sm text-gray-700">
+                <input
+                  type="checkbox"
+                  checked={isSameAddress}
+                  onChange={handleSameAddressToggle}
+                  className="form-checkbox text-green-600 mr-2"
+                />
+                Same as permanent address
+              </label>
+            </div>
 
             <div>
               <label htmlFor="currentState" className="text-black text-sm">
@@ -618,6 +763,7 @@ const JoinForm = () => {
                 placeholder="e.g., Province 3"
                 value={formData.currentState}
                 onChange={handleChange}
+                readOnly={isSameAddress}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md"
               />
             </div>
@@ -634,6 +780,7 @@ const JoinForm = () => {
                 placeholder="e.g., Lalitpur"
                 value={formData.currentDistrict}
                 onChange={handleChange}
+                readOnly={isSameAddress}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md"
               />
             </div>
@@ -652,6 +799,7 @@ const JoinForm = () => {
                 placeholder="e.g., Mahalaxmi Municipality"
                 value={formData.currentMunicipality}
                 onChange={handleChange}
+                readOnly={isSameAddress}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md"
               />
             </div>
@@ -667,6 +815,7 @@ const JoinForm = () => {
                 placeholder="e.g., Lubhu"
                 value={formData.currentArea}
                 onChange={handleChange}
+                readOnly={isSameAddress}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md"
               />
             </div>
@@ -698,17 +847,17 @@ const JoinForm = () => {
                 placeholder="e.g., Opposite to School"
                 value={formData.currentLandmark}
                 onChange={handleChange}
+                readOnly={isSameAddress}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md"
               />
             </div>
           </div>
-
           <div className="flex justify-end mt-6">
             <button
               type="submit"
-              className="bg-[#009000] cursor-pointer px-6 py-2 leading-5 text-white transition-colors duration-200 transform rounded-md hover:bg-green-700 focus:outline-none focus:bg-gray-600"
+              className="bg-[#8b1414] cursor-pointer px-6 py-2 leading-5 text-white transition-colors duration-200 transform rounded-md hover:bg-red-800 focus:outline-none focus:bg-gray-600"
             >
-              Join Now
+              Submit
             </button>
           </div>
         </form>
@@ -716,5 +865,4 @@ const JoinForm = () => {
     </>
   );
 };
-
 export default JoinForm;
