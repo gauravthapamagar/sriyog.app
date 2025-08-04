@@ -11,18 +11,18 @@ export const metadata: Metadata = {
 const professions = [
   { img: "electrician.png", title: "Electrician" },
   { img: "plumber.png", title: "Plumber" },
-  { img: "motorcycle-repair.png", title: "Bike Repair" },
+  { img: "motorcycle-repair.png", title: "Motorcycle Repair" },
   { img: "pandit.png", title: "Pandit" },
   { img: "carpenter.png", title: "Carpenter" },
   { img: "event-planner.png", title: "Event Planner" },
   { img: "painter.png", title: "Painter" },
   { img: "false-ceiling.png", title: "False Ceiling" },
-  { img: "handpump.png", title: "Tubewell Repair" },
+  { img: "handpump.png", title: "Hand Pump Repair" },
   { img: "business-consultant.png", title: "Business Consultant" },
   { img: "catering.png", title: "Catering" },
-  { img: "civil-contractor.png", title: "Civil contractors" },
+  { img: "civil-contractor.png", title: "Civil Contractor" },
   { img: "fancy-store.png", title: "Fancy Store" },
-  { img: "grill-shutter.png", title: "Grill/Shutter" },
+  { img: "grill-shutter.png", title: "Grill Shutter" },
   { img: "grocery.png", title: "Grocery" },
   { img: "hardware-suppliers.png", title: "Hardware Suppliers" },
   { img: "marketing.png", title: "Marketing" },
@@ -46,7 +46,7 @@ export default function FeaturesSection() {
                 className="bg-gray-100 shadow-md rounded-xl min-h-[100px] border border-gray-200 flex flex-col justify-center hover:shadow-xl items-center text-center rounded-lg p-4 hover:shadow-md hover:bg-gray-100 transition"
               >
                 <Link
-                  href={`/${item.title.toLowerCase().replace(/\s+/g, "-")}`}
+                  href={`professions/${item.title.toLowerCase().replace(/\s+/g, "-")}`}
                   className="block"
                 >
                   <Image

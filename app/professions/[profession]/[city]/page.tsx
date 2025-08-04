@@ -11,25 +11,21 @@ import { ProfessionalUser } from '@/model';
 
 
 
-// async function getPlumbers(city: string): Promise<PlumberData[]> {
-//   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001';
-//   const res = await fetch(`${baseUrl}/api/professionals/plumbers/${city}`);
-//   if (!res.ok) throw new Error('Failed to fetch plumbers');
-//   return res.json();
-// }
 
-export default async function PlumberCityPage({ params }: { params: Promise<{ city: string }> }) {
-  const { city } = await params;
+export default async function PlumberCityPage({ params }: { params: Promise<{ city: string, profession:string }> }) {
+  const { city, profession:prof } = await params;
+  const profession = prof.replace(/-/g, " ");
+  console.log(city, profession)
 //   const plumbers = await getPlumbers(city);
 //   console.log(plumbers)
 
   await connectdb();
-  const plumbers = await ProfessionalUser.find({ Profession: /plumber/i, City: new RegExp(city, 'i') }).lean() ;
+  const BikeRepairer = await ProfessionalUser.find({ Profession: new RegExp(profession, 'i'), City: new RegExp(city, 'i') }).lean();
 
   return (
    
     <>
-          <RedSection title={`Plumber in ${city.charAt(0).toUpperCase() + city.slice(1)}`}/>
+      <RedSection title={`${decodeURIComponent(profession).charAt(0).toUpperCase() + decodeURIComponent(profession).slice(1)} in ${city.charAt(0).toUpperCase() + city.slice(1)}`}/>
           <section className="w-full bg-white text-black pt-10">
             <div className="max-w-screen-xl mx-auto px-3 sm:px-6 md:px-8 lg:px-36 py-4">
               <div className="w-full flex justify-end p-4 px-0 py-4 -mt-12 mb-2">
@@ -54,7 +50,7 @@ export default async function PlumberCityPage({ params }: { params: Promise<{ ci
                                           return (
                                             <MenuItem key={city}>
                                               <Link
-                                                href={`/plumber`}
+                                                href={`/professions/${prof}`}
                                                 className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
                                               >
                                                 {city}
@@ -65,7 +61,7 @@ export default async function PlumberCityPage({ params }: { params: Promise<{ ci
                                         return (
                                           <MenuItem key={city}>
                                             <Link
-                                              href={`/plumber/${city}`}
+                                              href={`/professions/${prof}/${city}`}
                                               className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
                                             >
                                             {city.charAt(0).toUpperCase() + city.slice(1)}
@@ -79,7 +75,7 @@ export default async function PlumberCityPage({ params }: { params: Promise<{ ci
               </div>
     
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 ">
-                {plumbers.length > 0 ? plumbers.map((item, index) => (
+                {BikeRepairer.length > 0 ? BikeRepairer.map((item, index) => (
                   <div
                     key={index}
                     className="flex flex-col items-center text-center rounded-xl p-2 min-h-[400px] shadow-md border border-gray-300 bg-gray-100 hover:shadow-xl transition duration-300"
@@ -121,7 +117,7 @@ export default async function PlumberCityPage({ params }: { params: Promise<{ ci
                     </div>
                   </div>
                 )):(
-                    <div className="col-span-full text-center py-10">No plumbers found.</div>
+                    <div className="col-span-full text-center py-10">{`No ${decodeURIComponent(profession)} services found.`}</div>
                 )}
               </div>
             </div>

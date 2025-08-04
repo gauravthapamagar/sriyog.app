@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import StarRating from "@/components/StarRating";
+import { ProfessionalUser } from "@/model";
+import { connectdb } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Cleaning Companies in Nepal | SRIYOG App",
@@ -94,7 +96,10 @@ const professions = [
   },
 ];
 
-export default function FeaturesSection() {
+export default async function FeaturesSection() {
+  // await connectdb();
+  // const data = await ProfessionalUser.distinct("Profession");
+  // console.log(data)
   return (
     <>
       <RedSection title="Cleaning Companies in Nepal" />

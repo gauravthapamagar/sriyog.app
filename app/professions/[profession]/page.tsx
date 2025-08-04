@@ -13,31 +13,18 @@ export const metadata: Metadata = {
 };
 
 
-
-
-
-// async function getAllPlumbers(): Promise<PlumberData[]> {
-//   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001';
-//   const res = await fetch(`${baseUrl}/api/professionals/plumbers`, { cache: 'no-store' });
-//   if (!res.ok) throw new Error('Failed to fetch plumbers');
-//   return res.json();
-// }
-
-
-export default async function FeaturesSection() {
-  // let plumbers: PlumberData[] = [];
-  // let error: string | null = null;
-  // try {
-  //   plumbers = await getAllPlumbers();
-  // } catch (err: any) {
-  //   error = err.message || 'Unknown error';
-  // }
-  await connectdb();
-  const plumbers = await ProfessionalUser.find({ Profession: /plumber/i }).lean();
-
-  return (
-    <>
-      <RedSection title="Plumber in Nepal" />
+export default async function PlumberCityPage({ params }: { params: Promise<{ profession: string }> }) {
+    
+    const { profession:prof } = await params;
+    console.log('hi',prof)
+    const profession = prof.replace(/-/g, " ");
+    
+    await connectdb();
+    const professionals = await ProfessionalUser.find({ Profession: new RegExp(profession, 'i') }).lean();
+    
+    return (
+         <>
+      <RedSection title={` ${decodeURIComponent(profession).charAt(0).toUpperCase() + decodeURIComponent(profession).slice(1)} in Nepal`} />
       <section className="w-full bg-white text-black pt-10">
         <div className="max-w-screen-xl mx-auto px-3 sm:px-6 md:px-8 lg:px-36 py-4">
           <div className="w-full flex justify-end p-4 px-0 py-4 -mt-12 mb-2">
@@ -60,7 +47,7 @@ export default async function FeaturesSection() {
                   {['kathmandu','pokhara','chitwan','biratnagar','janakpur','birgunj','dharan'].map(city => (
                     <MenuItem key={city}>
                       <Link
-                        href={`/plumber/${city}`}
+                        href={`/professions/${prof}/${city}`}
                         className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
                       >
                         {city.charAt(0).toUpperCase() + city.slice(1)}
@@ -73,16 +60,15 @@ export default async function FeaturesSection() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 ">
-            {plumbers.length === 0 ? (
-              <div className="col-span-full text-center py-10">No plumbers found.</div>
+            {professionals.length === 0 ? (
+              <div className="col-span-full text-center py-10">{`No ${profession} services found.`}</div>
             ) : (
-              plumbers.map((item, index) => (
+              professionals.map((item, index) => (
                 <div
                   key={String(item._id)}
                   className="flex flex-col items-center text-center rounded-xl p-2 min-h-[400px] shadow-md border border-gray-300 bg-gray-100 hover:shadow-xl transition duration-300"
                 >
                   <div
-                    // href={`/professions/${item?.["First Name"]}`}
                     className=" w-full h-full flex flex-col items-center justify-center -mt-2"
                   >
                     <Image
@@ -101,15 +87,12 @@ export default async function FeaturesSection() {
                     <span className="text-lg font-bold text-gray-700 mt-1">
                       {item?.Profession}
                     </span>
-                          {/* <span className="text-sm font-bold text-gray-700 mt-1">
-                            {item?.Area}
-                          </span> */}
+                         
                     <span className="text-xs font-medium text-gray-700 mt-1">
                       {item?.City}
                     </span>
 
                     <div
-                      // type="button"
                       className="mt-8 text-black border border-gray-300 hover:bg-[#8b1414] hover:text-white cursor-pointer transition duration-200 font-medium rounded-lg text-sm px-5 py-2 shadow-sm"
                     >
                       <a href={`tel:${String(item?.Phone).slice(-10)}`}> Call Now</a>
@@ -123,5 +106,6 @@ export default async function FeaturesSection() {
       </section>
       <section className="w-full pt-10 pb-10 border-b border-gray-300"></section>
     </>
-  );
+    )
+
 }
