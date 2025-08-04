@@ -1,21 +1,33 @@
+import { NextRequest, NextResponse } from "next/server";
+import { connectdb } from "@/lib/db";
+import ProfessionalUser from "@/model/professionalUser.model";
 
-import { NextRequest } from 'next/server';
-import { connectdb } from '@/lib/db';
-import ProfessionalUser from '@/model/professionalUser.model';
-import { NextResponse } from 'next/server';
+// Temporarily use 'any' for the context parameter to debug
+export async function GET(request: NextRequest, context: any) {
+  // We still extract the city, but without strict typing on 'context'
+  const { city } = context.params;
 
-interface Params {
-  city: string;
-}
-
-export async function GET(request: NextRequest, context: { params: Params }) {
-  const { params } = context;
   await connectdb();
-  const { city } = params;
+
   try {
-    const plumbers = await ProfessionalUser.find({ Profession: /plumber/i, City: new RegExp(city, 'i') });
+    const plumbers = await ProfessionalUser.find({
+      Profession: /plumber/i,
+      City: new RegExp(city, "i"),
+    });
+
+    if (plumbers.length === 0) {
+      return NextResponse.json(
+        { message: `No plumbers found in ${city}` },
+        { status: 404 }
+      );
+    }
+
     return NextResponse.json(plumbers);
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch plumbers for city', details: error }, { status: 500 });
+    console.error("Failed to fetch plumbers:", error);
+    return NextResponse.json(
+      { message: "An internal server error occurred." },
+      { status: 500 }
+    );
   }
 }
