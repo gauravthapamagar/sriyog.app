@@ -16,7 +16,6 @@ export const metadata: Metadata = {
 export default async function PlumberCityPage({ params }: { params: Promise<{ profession: string }> }) {
     
     const { profession:prof } = await params;
-    console.log('hi',prof)
     const profession = prof.replace(/-/g, " ");
     
     await connectdb();
