@@ -9,15 +9,19 @@ export const metadata: Metadata = {
 };
 
 const cities = [
-  { name: "Biratnagar", img: "biratnagar.png" },
-  { name: "Kathmandu", img: "kathmandumain.png" },
-  { name: "Pokhara", img: "pokhara.jpg" },
-  { name: "Bharatpur", img: "bharatpur.png" },
-  { name: "Birgunj", img: "birgunj.jpg" },
-  { name: "Janakpur", img: "janakpur.png" },
-  { name: "Dharan", img: "dharan.png" },
-  { name: "Itahari", img: "itahari.jpg" },
-  { name: "Damak", img: "damak.jpg" },
+  { name: "Bharatpur", img: "/cities/bharatpur.jpg" },
+  { name: "Birtamode", img: "/cities/birtamode.jpg" },
+  { name: "Butwal", img: "/cities/butwal.jpg" },
+  { name: "Dhangadi", img: "/cities/dhangadi.jpg" },
+  { name: "Dhankuta", img: "/cities/dhankuta.jpg" },
+  { name: "Inaruwa", img: "/cities/inaruwa.jpg" },
+  { name: "Kapilvastu", img: "/cities/kapilvastu.jpg" },
+  { name: "Lahan", img: "/cities/lahan.jpg" },
+  { name: "Lalitpur", img: "/cities/lalitpur.jpg" },
+  { name: "Mahendranagar", img: "/cities/mahendranagar.jpg" },
+  { name: "Nepalgunj", img: "/cities/nepalgunj.jpg" },
+  { name: "Sundarharaicha", img: "/cities/sundarharaicha.jpg" },
+  { name: "Tulsipur", img: "/cities/tulsipur.jpg" },
 ];
 
 const page = () => {
@@ -33,7 +37,7 @@ const page = () => {
             {cities.map((city, idx) => (
               <div key={idx} className="relative group">
                 <Image
-                  src={`/images/city/${city.img}`}
+                  src={`${city.img}`}
                   alt={`${city.name} City`}
                   width={200}
                   height={100}
