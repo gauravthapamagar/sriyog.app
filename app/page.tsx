@@ -1,54 +1,52 @@
 import React from "react";
 import Image from "next/image";
+import CallbackForm from "@/components/landingPage/CallBackForm";
+import { FiCamera, FiMapPin } from "react-icons/fi";
+import SearchForm from "@/components/landingPage/SearchForm";
+
 
 export default function Home() {
   return (
     <>
-      <div className="w-full max-w-screen-xl mx-auto py-6 md:py-12 md:my-10 px-3 sm:px-6 md:px-8 lg:px-48 flex flex-col-reverse md:flex-row justify-between items-center">
-        {/* Left Content */}
-        <div className="flex flex-col items-center md:items-start space-y-6 w-full md:w-1/2">
-          <h1 className="text-2xl md:text-3xl text-center md:text-left mt-4 text-black">
-            Find Skilled Professionals
-          </h1>
-          <p className="text-xl text-center md:text-left text-black">
-            100K+ Downloads
-          </p>
-          <p className="font-semibold text-center md:text-left text-black">
-            Now India Added
-          </p>
-          <div className="flex space-x-3 md:space-x-4 justify-center md:justify-start">
-            <a href="https://bit.ly/sriyog" target="_blank" rel="noreferrer">
-              <Image
-                src="/images/google.png"
-                alt="Google Play Store"
-                width={150}
-                height={50}
-                className="h-8 md:h-12 w-auto"
-              />
-            </a>
-            <a href="https://bit.ly/sriyogios" target="_blank" rel="noreferrer">
-              <Image
-                src="/images/apple.png"
-                alt="Apple App Store"
-                width={150}
-                height={50}
-                className="h-8 md:h-12 w-auto"
-              />
-            </a>
-          </div>
+    <main className="bg-gray-100">
+      <div className="relative h-[80vh] min-h-[600px] flex items-center justify-center text-center text-white">
+        
+        <Image
+          src="/images/home/pgbg.jpg"
+          alt="A scenic view of Kathmandu with temples and mountains in the background"
+          layout="fill"
+          objectFit="cover"
+          className="z-0"
+          priority 
+        />
+        
+        <div className="absolute inset-0 bg-black/60 z-10"></div>
+        
+        <div className="w-full max-w-screen-2xl mx-auto">
+          <div className="relative w-full z-20 flex flex-col items-center justify-center">
+           
+          <SearchForm />
         </div>
 
-        {/* Right Image */}
-        <div className="mobile-image w-full md:w-1/2 flex justify-center md:justify-end mt-6 md:mt-0 md:mr-16 lg:mr-0">
-          <Image
-            src="/images/mobile.png"
-            alt="Mobile App Preview"
-            width={320}
-            height={384}
-            className="h-80 md:h-96 w-auto"
-          />
+        <div className="absolute bottom-4 right-4 z-20 text-white/80 text-xs sm:text-sm">
+           <div className="flex items-center gap-2 mb-1">
+                <FiMapPin />
+                <span>Pashupatinath | Kathmandu</span>
+           </div>
+           <div className="flex items-center gap-2">
+                <FiCamera />
+                <span>Photo Source: © Prakash Thapa</span>
+           </div>
         </div>
+        </div>
+
       </div>
+
+      <CallbackForm />
+
+    </main>
+  
+
     </>
   );
 }

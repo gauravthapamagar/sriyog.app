@@ -19,7 +19,7 @@ export default function Header() {
   return (
     <>
       <nav className="bg-white border-gray-200 shadow-md">
-        <div className="max-w-screen-xl mx-auto px-3 sm:px-6 md:px-8 lg:px-36 py-4 flex items-center justify-between flex-nowrap overflow-hidden gap-2">
+        <div className="max-w-screen-xl mx-auto px-3 sm:px-6 md:px-8 lg:px-12 py-4 flex items-center justify-between flex-nowrap overflow-hidden gap-2">
           <Link
             href="/"
             className="flex items-center space-x-1 rtl:space-x-reverse"
